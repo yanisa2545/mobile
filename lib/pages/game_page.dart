@@ -10,6 +10,7 @@ class _GamePageState extends State<GamePage> {
   final _controller = TextEditingController();
   final _game = Game();
   var _feedbacktext = '';
+  var _str = '';
   var _showTestButton = false;
   void handleClickGuess() {
    setState(() {
@@ -22,10 +23,14 @@ class _GamePageState extends State<GamePage> {
       //แจ้งerror
       print('Input error');
       setState(() {
-        _feedbacktext = 'Input error, please try again';
+        _feedbacktext = '$guess Input error, please try again';
       });
     } else {
       var result = _game.doGuess(guess);
+      var a = _game.answer;
+      setState(() {
+        _str = 'The answer is $a';
+      });
       if (result == Result.tooHigh) {
         //ทายมากไป
         print('Too high');
@@ -71,16 +76,18 @@ class _GamePageState extends State<GamePage> {
               child: Text('Guess'),
             ),
             Text(_feedbacktext),
-
+            Text(_str),
              ElevatedButton(
              style: OutlinedButton.styleFrom(
                primary: _showTestButton ? Colors.pink : Colors.black,
-               //หรือใช้backgroundColor แทนตรงprimary
+               /*หรือใช้backgroundColor แทนตรงprimary*/
              ),
               onPressed: (){},
               child: Text('Test'),
             ),
-            Icon(_showTestButton ? Icons.print : Icons.access_alarm_rounded),
+
+            Icon(color: Colors.yellow,size : 100.0,
+                _showTestButton ? Icons.print  : Icons.access_alarm_rounded),
           ],
         ),
       ),
